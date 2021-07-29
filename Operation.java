@@ -2,42 +2,37 @@
 
 public class Operation {
 	
-
 	
 	public Operation(){
 		
-	}
+	} // end constructor Operation
 	
-
 
 	public double add(double x, double y) {
-		
 		return (x+y);
-	}
+	} // end method add
 	
 	public double sub(double x, double y) {
-		
 		return (x-y);
-	}
+	} // end method sub
 	
 	public double mult(double x, double y) {
-		
 		return (x*y);
-	}
+	} // end method mult
 	
 	public double div(double x, double y) {
-		
 		return (x/y);
-	}
+	} // end method div
 	
 	public double sqrt(double x) {
-		
 		return (sqrt(x));
-	}
+	} // end method sqrt
 	
-	public double pot(double x) {
-		
-		return (x*x);
-	}
+	public double pot(double x, int y) {
+		double z = 0;
+		for( int i = 0; i < y ; i++ )
+			z = mult(x,x);
+		return z;
+	} // end method pot
 
-}
+} // end class Operation

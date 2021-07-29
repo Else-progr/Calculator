@@ -6,7 +6,7 @@ public class Panel {
 	private JPanel panelNumber;
 	private JPanel panelOperator;
 	private JPanel panelClear;
-//	private JPanel panel;
+
 	
 	Panel( CalculatorButtons buttons ){
 		
@@ -41,25 +41,25 @@ public class Panel {
 		
 		for(int i=14; i< buttons.getSize(); i++) {
 			panelOperator.add(buttons.getButtons(i));
-		}
+		} // end for
 		
-	}
+	} // end constructor Panel
 	
 	
 	JPanel getPanelNumbers() {
 		return panelNumber;
-	}
+	} //end method getPanelNumbers
 	
 	JPanel getPanelClear() {
 		return panelClear;
-	}
+	} //end method getPanelClear
 	
 	JPanel getPanelOperators() {
 		return panelOperator;
-	}
+	} //end method getPanelOperators
 	
 	int getPanelOperatorSize( CalculatorButtons buttons ) {
 		return (int)(((buttons.getSize()-13)/4)+1);
-	}
+	} //end method getPanelOperatorSize
 
-}
+} // end class Panel
