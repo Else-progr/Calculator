@@ -5,23 +5,23 @@ public class Panel {
 	
 	private JPanel panelNumber;
 	private JPanel panelOperator;
-	private JPanel panelEqualKill;
+	private JPanel panelClear;
 //	private JPanel panel;
 	
 	Panel( CalculatorButtons buttons ){
 		
-		panelNumber = new JPanel();
-		panelNumber.setBounds(50, 350, 300, 200);
-	    panelNumber.setLayout(new GridLayout(4,3));
-	    
+	    panelClear = new JPanel();
+	    panelClear.setBounds(50, 230, 300, 50);
+	    panelClear.setLayout(new GridLayout());
+		
 	    panelOperator = new JPanel();
-	    panelOperator.setBounds(50, 230, 250, 100);
-	    panelOperator.setLayout(new GridLayout());
+	    panelOperator.setBounds(50, 300, 300, 50*getPanelOperatorSize(buttons));
+	    panelOperator.setLayout(new GridLayout(getPanelOperatorSize(buttons),4));
 	    
-	    panelEqualKill = new JPanel();
-	    panelEqualKill.setBounds(300, 230, 50, 100);
-	    panelEqualKill.setLayout(new GridLayout(2,1));
-	    
+		panelNumber = new JPanel();
+		panelNumber.setBounds(50, 350+50*getPanelOperatorSize(buttons), 300, 200);
+	    panelNumber.setLayout(new GridLayout(4,3));
+	   
 	    
 	    panelNumber.add(buttons.getButtons(7));
 		panelNumber.add(buttons.getButtons(8));
@@ -32,12 +32,12 @@ public class Panel {
 		panelNumber.add(buttons.getButtons(1));
 		panelNumber.add(buttons.getButtons(2));
 		panelNumber.add(buttons.getButtons(3));
-		panelNumber.add(buttons.getButtons(10));
+		panelNumber.add(buttons.getButtons(10)); // '.'
 		panelNumber.add(buttons.getButtons(0));
-		panelNumber.add(buttons.getButtons(11));
+		panelNumber.add(buttons.getButtons(11)); // '='
 		
-		panelEqualKill.add(buttons.getButtons(13));
-		panelEqualKill.add(buttons.getButtons(12));
+		panelClear.add(buttons.getButtons(13));
+		panelClear.add(buttons.getButtons(12));
 		
 		for(int i=14; i< buttons.getSize(); i++) {
 			panelOperator.add(buttons.getButtons(i));
@@ -50,12 +50,16 @@ public class Panel {
 		return panelNumber;
 	}
 	
-	JPanel getPanelEqualKill() {
-		return panelEqualKill;
+	JPanel getPanelClear() {
+		return panelClear;
 	}
 	
 	JPanel getPanelOperators() {
 		return panelOperator;
+	}
+	
+	int getPanelOperatorSize( CalculatorButtons buttons ) {
+		return (int)(((buttons.getSize()-13)/4)+1);
 	}
 
 }

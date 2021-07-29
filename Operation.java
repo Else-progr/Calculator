@@ -1,13 +1,11 @@
-import javax.swing.*;
 
 
 public class Operation {
 	
-	private JButton pressed;
-	
+
 	
 	public Operation(){
-//		this.pressed = pressed;
+		
 	}
 	
 
@@ -30,6 +28,16 @@ public class Operation {
 	public double div(double x, double y) {
 		
 		return (x/y);
+	}
+	
+	public double sqrt(double x) {
+		
+		return (sqrt(x));
+	}
+	
+	public double pot(double x) {
+		
+		return (x*x);
 	}
 
 }

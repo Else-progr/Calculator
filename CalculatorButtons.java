@@ -25,19 +25,27 @@ public class CalculatorButtons {
 		
 		buttons.add(new JButton(".")); //10
 
-		buttons.add(new JButton("CE")); //11
-		buttons.add(new JButton("C")); //12
+		buttons.add(new JButton("=")); //11
 		
-		buttons.add(new JButton("="));//13
+		buttons.add(new JButton("C")); //12
+		buttons.add(new JButton("CE"));//13
 		
 		buttons.add(new JButton("+")); //14
 		buttons.add(new JButton("-")); //15
 		buttons.add(new JButton("/")); //16
 		buttons.add(new JButton("x")); //17
+		buttons.add(new JButton("^2")); //18
+		buttons.add(new JButton("srqt")); //19
+//		buttons.add(new JButton()); //20
+//		buttons.add(new JButton()); //21
+//		buttons.add(new JButton()); //22
+//		buttons.add(new JButton()); //23
+//		buttons.add(new JButton()); //24
 		
 	}
 	
 	public int getSize() {
+		
 		return buttons.size();
 	}
 	

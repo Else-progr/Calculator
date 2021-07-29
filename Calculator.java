@@ -12,7 +12,7 @@ import javax.swing.*;
  */
 public class Calculator /*extends JFrame*/ implements ActionListener{
 	
-//	private CalculatorButtons buttons;
+	private CalculatorButtons buttons;
 	private Panel panel;
 	
 	private JFrame window;
@@ -31,26 +31,28 @@ public class Calculator /*extends JFrame*/ implements ActionListener{
 //	private JButton buttonMultiplication;
 //	private JButton buttonEqual;
 	
-//	private ArrayList<String> operatorSequence = new ArrayList<String>();
-//	private ArrayList<Double> numberSequence = new ArrayList<Double>();
+	private ArrayList<String> operatorSequence = new ArrayList<String>();
+	private ArrayList<Double> numberSequence = new ArrayList<Double>();
 	
 	private JTextField inputBox;
 	private JTextField outputBox1;
 	private JTextField outputBox2;
 	
-//	private boolean dot = false;
-//	private boolean newOperation = false;
+	private boolean dot = false;
+	private boolean newOperation = false;
 	
 	
 	Calculator(CalculatorButtons buttons){
 		
+		this.buttons = buttons;
+		
+		panel = new Panel(buttons);
 		
 		window = new JFrame("Calculator");
-		window.setSize(400, 600);
+		window.setSize(400, 600+50*panel.getPanelOperatorSize(buttons));
 		window.setLayout(null);
 		window.setVisible(true);
-
-		panel = new Panel(buttons);
+		
 		
 //		panelButtons = new JPanel();
 //		panelButtons.setBounds(50, 350, 300, 200);
@@ -117,7 +119,7 @@ public class Calculator /*extends JFrame*/ implements ActionListener{
 		
 		window.add(panel.getPanelNumbers());
 		window.add(panel.getPanelOperators());
-		window.add(panel.getPanelEqualKill());
+		window.add(panel.getPanelClear());
 		
 
 		inputBox = new JTextField();
@@ -139,6 +141,7 @@ public class Calculator /*extends JFrame*/ implements ActionListener{
 		
 		for(int i=0; i< buttons.getSize(); i++)
 			buttons.getButtons(i).addActionListener(this);
+		
 //		buttons.getDot().addActionListener(this);
 //		buttons.getPlus().addActionListener(this);
 //		buttons.getMinus().addActionListener(this);
@@ -160,7 +163,7 @@ public class Calculator /*extends JFrame*/ implements ActionListener{
 //		buttonKill.addActionListener(this);
 //		buttonClear.addActionListener(this);
 		
-	}
+	} // end constructor Calculator
 
 
 
@@ -169,83 +172,92 @@ public class Calculator /*extends JFrame*/ implements ActionListener{
 		
 		JButton pressed = (JButton)event.getSource();
 		
-//		Operation op = new Operation();
+		Operation op = new Operation();
+		
+		/*
+		 * 'CE' gedrückt:
+		 * Löschen der Eingabe-Box, beider Ausgabe-Boxen sowie die Nummern- als auch die Operatoren-Folge
+		 */
+		if( pressed == buttons.getButtons(13) /*Kill*/){ 
+			inputBox.setText(""); 
+			outputBox1.setText("");
+			outputBox2.setText("");
+			operatorSequence.clear();
+			numberSequence.clear();
+			System.out.println("Nr-Seq = "+numberSequence);
+			newOperation = false;	
+		/*
+		 * 'C' gedrückt:
+		 * Löschen der Eingabe-Box
+		 * beider Ausgabe-Boxen sowie die Nummern- als auch die Operatoren-Folge bleiben erhalten!
+		 */
+		}else if( pressed == buttons.getButtons(12) /*Clear*/ ) { 
+			inputBox.setText("");
+			dot = false;
+		}// end else if
+		
+		/*
+		 * '.' gedrückt:
+		 * 
+		 */
+		if ( pressed == buttons.getButtons(10) /* Dot */ && dot == false) {
+			inputBox.setText(inputBox.getText()+event.getActionCommand());
+			dot = true;
+		}else if( pressed != buttons.getButtons(10)  /* Dot */ 
+				&& pressed != buttons.getButtons(13) /* Kill */
+			&& pressed != buttons.getButtons(12)  /* Clear */	) {
+		inputBox.setText(inputBox.getText()+event.getActionCommand());
+		} // end else if
 		
 		
-//		if( pressed == buttons.getKill() ){ 
-//			inputBox.setText(""); 
-//			outputBox1.setText("");
-//			outputBox2.setText("");
-//			operatorSequence.clear();
-//			numberSequence.clear();
-//		}else if( pressed == buttons.getClear() ) { 
-//			inputBox.setText("");
-//			dot = false;
-//		}
-//		
-//		
-//		if ( pressed == buttons.getDot() && dot == false) {
-//			inputBox.setText(inputBox.getText()+event.getActionCommand());
-//			dot = true;
-//		}else if( pressed != buttons.getDot() && pressed != buttons.getClear() && pressed != buttons.getKill()) {
-//			inputBox.setText(inputBox.getText()+event.getActionCommand());
-//		}
-//		
-//		
-//		if( pressed == buttons.getPlus()|| pressed == buttons.getMinus() || pressed == buttons.getMultiplication() || pressed == buttons.getDivision() || pressed == buttons.getEqual() )  {
-//			operatorSequence.add(event.getActionCommand());
-//			outputBox1.setText(outputBox1.getText()+inputBox.getText());
-//			dot = false;
-//			if(!newOperation) numberSequence.add(Double.parseDouble(inputBox.getText().substring(0,inputBox.getText().length()-1)));
-//			inputBox.setText("");
-//			newOperation = false;
-//		}
-//		
-//		if( pressed == buttons.getEqual() ) {
-//			
-//			for(int i=0; i<operatorSequence.size(); i++) {
-//				if( operatorSequence.get(i) == "+" ) {
-//				numberSequence.set(i+1, /*op.*/add(numberSequence.get(i),numberSequence.get(i+1)));
-//				}else if( operatorSequence.get(i) == "-" ) { numberSequence.set(i+1, /*op.*/sub(numberSequence.get(i),numberSequence.get(i+1)));
-//				}else if( operatorSequence.get(i) == "x" ) { numberSequence.set(i+1, /*op.*/mult(numberSequence.get(i),numberSequence.get(i+1)));
-//				}else if( operatorSequence.get(i) == "/" ) { numberSequence.set(i+1, /*op.*/div(numberSequence.get(i),numberSequence.get(i+1)));
-//				}
-//			}
-//			
-//			double positionzero = numberSequence.get(numberSequence.size()-1);
-//			numberSequence.clear();
-//			operatorSequence.clear();
-//			numberSequence.add(positionzero);
-//			outputBox2.setText(outputBox1.getText());
-//			outputBox1.setText(""+numberSequence.get(0));
-//			newOperation = true;
-//		}
+		if( pressed == buttons.getButtons(14) /* + */
+				|| pressed == buttons.getButtons(15) /* - */
+				|| pressed == buttons.getButtons(17) /* x */
+				|| pressed == buttons.getButtons(16) /* / */
+				|| pressed == buttons.getButtons(11) /* = */ )  {
+			operatorSequence.add(event.getActionCommand());
+			outputBox1.setText(outputBox1.getText()+inputBox.getText());
+			dot = false;
+			if(!newOperation) { 
+				numberSequence.add(Double.parseDouble(inputBox.getText().substring(0,inputBox.getText().length()-1)));
+				System.out.println("Nr-Seq = "+numberSequence);
+			} // end if
+			inputBox.setText("");
+			newOperation = false;
+		} // end if
+		
+		if( pressed == buttons.getButtons(11) /* = */ ) {
+			
+			for(int i=0; i<operatorSequence.size(); i++) {
+				if( operatorSequence.get(i) == "+" ) {
+					numberSequence.set(i+1, op.add(numberSequence.get(i),numberSequence.get(i+1)));
+				}else if( operatorSequence.get(i) == "-" ) { 
+					numberSequence.set(i+1, op.sub(numberSequence.get(i),numberSequence.get(i+1)));
+				}else if( operatorSequence.get(i) == "x" ) { 
+					numberSequence.set(i+1, op.mult(numberSequence.get(i),numberSequence.get(i+1)));
+				}else if( operatorSequence.get(i) == "/" ) { 
+					numberSequence.set(i+1, op.div(numberSequence.get(i),numberSequence.get(i+1)));
+				}else if( operatorSequence.get(i) == "^2" ) { 
+					numberSequence.set(i+1, op.pot(numberSequence.get(i)));
+				}else if( operatorSequence.get(i) == "/" ) { 
+					numberSequence.set(i+1, op.sqrt(numberSequence.get(i)));
+				} // end else if
+			} // end for
+			
+			double positionzero = numberSequence.get(numberSequence.size()-1);
+			numberSequence.clear();
+			operatorSequence.clear();
+			numberSequence.add(positionzero);
+			System.out.println("Nr-Seq = "+numberSequence);
+			outputBox2.setText(outputBox1.getText());
+			outputBox1.setText(""+numberSequence.get(0));
+			newOperation = true;
+			
+		} // end if
 		
 		
 		
-	}
-	
-	
-	
-	public double add(double x, double y) {
-		
-		return (x+y);
-	}
-	
-	public double sub(double x, double y) {
-		
-		return (x-y);
-	}
-	
-	public double mult(double x, double y) {
-		
-		return (x*y);
-	}
-	
-	public double div(double x, double y) {
-		
-		return (x/y);
-	}
+	} // end method actionPerformed
 
 	
-}
+} // end class
