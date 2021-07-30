@@ -25,14 +25,11 @@ public class Operation {
 	} // end method div
 	
 	public double sqrt(double x) {
-		return (sqrt(x));
+		return (Math.sqrt(x));
 	} // end method sqrt
 	
-	public double pot(double x, int y) {
-		double z = 0;
-		for( int i = 0; i < y ; i++ )
-			z = mult(x,x);
-		return z;
+	public double pot(double x, double y) {
+		return Math.pow(x,y);
 	} // end method pot
 
 } // end class Operation
