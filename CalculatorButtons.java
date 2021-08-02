@@ -23,7 +23,7 @@ public class CalculatorButtons {
 		buttons.add(new JButton("/")); //16
 		buttons.add(new JButton("x")); //17
 		buttons.add(new JButton("^y")); //18
-		buttons.add(new JButton("sqrt")); //19
+		buttons.add(new JButton("\u221A")); //19
 //		buttons.add(new JButton()); //20
 //		buttons.add(new JButton()); //21
 //		buttons.add(new JButton()); //22

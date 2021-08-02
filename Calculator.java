@@ -26,7 +26,7 @@ public class Calculator implements ActionListener{
 	private JTextField outputBox2;
 	
 	private boolean dot = false;
-	private boolean newOperation = false;
+//	private boolean newOperation = false;
 	
 	
 	Calculator(CalculatorButtons buttons){
@@ -89,7 +89,7 @@ public class Calculator implements ActionListener{
 			outputBox2.setText("");
 			operatorSequence.clear();
 			numberSequence.clear();
-			newOperation = false;	
+//			newOperation = false;
 		/*
 		 * 'C' gedrückt:
 		 * Löschen der Eingabe-Box
@@ -111,41 +111,43 @@ public class Calculator implements ActionListener{
 				&& pressed != buttons.getButtons(13) /* Kill */
 				&& pressed != buttons.getButtons(12)  /* Clear */	) {
 
-			if (event.getActionCommand() == "^y") {
+			if (event.getActionCommand().equals("^y")) {
 				inputBox.setText(inputBox.getText() + "^");
 			}else {
 				inputBox.setText(inputBox.getText() + event.getActionCommand());
+//				newOperation = false;
 			}
 		} // end else if
 		
+//		if( !newOperation ) {
+			for (int i = 14; i < buttons.getSize(); i++) {
 
-		for( int i = 14 ; i < buttons.getSize() ; i++ ) {
+				if (pressed == buttons.getButtons(i) /* Operators */
+						|| pressed == buttons.getButtons(11) /* = */) {
 
-			if(pressed == buttons.getButtons(i) /* Operators */
-					|| pressed == buttons.getButtons(11) /* = */ ){
+					if (event.getActionCommand().equals("^y")) {
+						operatorSequence.add("^");
+					} else {
+						operatorSequence.add(event.getActionCommand());
+					}// end else
 
-				if ( event.getActionCommand() == "^y") {
-					operatorSequence.add("^");
-				}else {
-					operatorSequence.add(event.getActionCommand());
-				}// end else
+					outputBox1.setText(outputBox1.getText() + inputBox.getText());
+					dot = false;
 
-				outputBox1.setText(outputBox1.getText()+inputBox.getText());
-				dot = false;
-
-				if (event.getActionCommand() != "sqrt") {
-					if ( !newOperation ) {
-						numberSequence.add(Double.parseDouble(inputBox.getText().substring(0, inputBox.getText().length() - 1)));
+					if (event.getActionCommand() != "\u221A") {
+//						if (!newOperation) {
+							numberSequence.add(Double.parseDouble(inputBox.getText().substring(0, inputBox.getText().length() - 1)));
+//						}
 					}
-				}
 
-				inputBox.setText("");
-				newOperation = false;
+					inputBox.setText("");
+//					newOperation = false;
 
-				break;
-			} // end if
+					break;
+				} // end if
 
-		} // end for
+			} // end for
+//		}
 
 
 		if( pressed == buttons.getButtons(11) /* = */ ) {
@@ -161,7 +163,7 @@ public class Calculator implements ActionListener{
 					numberSequence.set(i+1, op.div(numberSequence.get(i),numberSequence.get(i+1)));
 				}else if( operatorSequence.get(i) == "^" ) { 
 					numberSequence.set(i+1, op.pot(numberSequence.get(i),numberSequence.get(i+1)));
-				}else if( operatorSequence.get(i) == "sqrt" ) {
+				}else if( operatorSequence.get(i) == "\u221A" ) {
 					numberSequence.set(i, op.sqrt(numberSequence.get(i)));
 				} // end else if
 			} // end for
@@ -172,7 +174,7 @@ public class Calculator implements ActionListener{
 			numberSequence.add(positionzero);
 			outputBox2.setText(outputBox1.getText());
 			outputBox1.setText(""+numberSequence.get(0));
-			newOperation = true;
+//			newOperation = true;
 			
 		} // end if
 		
