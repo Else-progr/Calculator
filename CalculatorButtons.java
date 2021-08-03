@@ -3,7 +3,7 @@ import javax.swing.JButton;
 
 public class CalculatorButtons {
 	
-	private ArrayList<JButton> buttons = new ArrayList<JButton>();
+	private ArrayList<JButton> buttons = new ArrayList<>();
 	
 	
 	CalculatorButtons(){
@@ -42,6 +42,3 @@ public class CalculatorButtons {
 	
 
 } // end class CalculatorButtons
-
-
-
