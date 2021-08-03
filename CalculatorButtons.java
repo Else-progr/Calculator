@@ -26,9 +26,9 @@ public class CalculatorButtons {
 		buttons.add(new SqrtButton()); //19
 //		buttons.add(new PowerButton()); //20
 //		buttons.add(new FacButton()); //21
-//		buttons.add(new JButton()); //22
-//		buttons.add(new JButton()); //23
-//		buttons.add(new JButton()); //24
+//		buttons.add(new Button()); //22
+//		buttons.add(new Button()); //23
+//		buttons.add(new Button()); //24
 		
 	} // end constructor CalculatorButtons
 	
