@@ -24,8 +24,8 @@ public class CalculatorButtons {
 		buttons.add(new DivButton()); //17
 		buttons.add(new Pow2Button()); //18
 		buttons.add(new SqrtButton()); //19
-//		buttons.add(new PowerButton()); //20
-//		buttons.add(new FacButton()); //21
+//		buttons.add(new FacButton()); //20
+//		buttons.add(new PowerButton()); //21
 //		buttons.add(new Button()); //22
 //		buttons.add(new Button()); //23
 //		buttons.add(new Button()); //24

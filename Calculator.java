@@ -1,4 +1,4 @@
-//import java.awt.*;
+import java.awt.*;
 //import java.awt.GridLayout;
 //import java.util.List;
 import java.awt.event.ActionEvent;
@@ -11,13 +11,11 @@ import javax.swing.*;
  *
  */
 public class Calculator implements ActionListener{
-	
-	private CalculatorButtons buttons;
+
 	private Panel panel;
-	
 	private JFrame window;
-	
-	
+
+	private CalculatorButtons buttons;
 	private ArrayList<JButton> operatorSeq = new ArrayList<>();
 	private ArrayList<Double> numberSeq = new ArrayList<>();
 	
@@ -26,9 +24,13 @@ public class Calculator implements ActionListener{
 	private JTextField outputBox2;
 	
 	private boolean dot = false;
-//	private boolean newOperation = false;
-	
-	
+	private boolean newOperation = false;
+
+
+	/**
+	 *
+	 * @param buttons
+	 */
 	Calculator(CalculatorButtons buttons){
 		
 		this.buttons = buttons;
@@ -68,17 +70,19 @@ public class Calculator implements ActionListener{
 			buttons.getButtons(i).addActionListener(this);
 		} // end for
 		
-	} // end constructor Calculator
+	} // end constructor
 
 
-
+	/**
+	 *
+	 * @param event
+	 */
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
 		JButton pressed = (JButton) event.getSource();
 
-		/*
-		 * 'CE' gedrückt:
+		/* 'CE' gedrückt:
 		 * Löschen der Eingabe-Box, beider Ausgabe-Boxen sowie die Nummern- als auch die Operatoren-Folge
 		 */
 		if( pressed == buttons.getButtons(13) /*Kill*/) {
@@ -90,66 +94,62 @@ public class Calculator implements ActionListener{
 //			newOperation = false;
 		} // end if
 
-		/*
-		 * 'C' gedrückt:
+		/* 'C' gedrückt:
 		 * Löschen der Eingabe-Box
-		 * beider Ausgabe-Boxen sowie die Nummern- als auch die Operatoren-Folge bleiben erhalten!
+		 * beide Ausgabe-Boxen sowie die Nummern- als auch die Operatoren-Folge bleiben erhalten!
 		 */
 		if( pressed == buttons.getButtons(12) /*Clear*/ ) {
 			inputBox.setText("");
 			dot = false;
 		} // end if
 		
-		/*
-		 * '.' gedrückt:
-		 * 
+		/* '.' gedrückt
+		 * Falls '.' noch nicht gedrückt wurde zuvor (dot=false), wird '.' gesetzt und dot auf TRUE gesetzt
 		 */
 		if ( pressed == buttons.getButtons(10) /* Dot */ && !dot ) {
 			inputBox.setText(inputBox.getText()+event.getActionCommand());
 			dot = true;
-		}else if( pressed != buttons.getButtons(10)  /* Dot */ 
-				&& pressed != buttons.getButtons(13) /* Kill */
-				&& pressed != buttons.getButtons(12)  /* Clear */	) {
+		} // end if
 
-			if (event.getActionCommand().equals("^y")) {
-				inputBox.setText(inputBox.getText() + "^");
-			}else {
+		/* 'Zahl' gedrückt
+		 *
+		 */
+		for( int i = 0 ; i < 10 ; i++) {
+			if ( pressed.equals(buttons.getButtons(i)) ) {
 				inputBox.setText(inputBox.getText() + event.getActionCommand());
-//				newOperation = false;
-			}
-		} // end else if
-		
-//		if( !newOperation ) {
-			for (int i = 14; i < buttons.getSize(); i++) {
+				newOperation = false;
+			} // end if
+		}
 
-				if (pressed == buttons.getButtons(i) /* Operators */
-						|| pressed == buttons.getButtons(11) /* = */) {
+		for (int i = 14; i < buttons.getSize(); i++) {
 
-//					if (event.getActionCommand().equals("^y")) {
-//						operatorSequence.add("^");
-//					} else {
-						operatorSeq.add((JButton) event.getSource());
-//					}// end else
+			if ( ( pressed.equals(buttons.getButtons(i)) /* Operators */ && newOperation==false )
+					|| pressed.equals(buttons.getButtons(11)) /* = */) {
 
-					outputBox1.setText(outputBox1.getText() + inputBox.getText());
-					dot = false;
+				operatorSeq.add((JButton) event.getSource());
 
-					if (!event.getActionCommand().equals("\u221A")) {
-//						if (!newOperation) {
-							numberSeq.add(Double.parseDouble(inputBox.getText().substring(0, inputBox.getText().length() - 1)));
-//						}
-					}
+				outputBox1.setText(outputBox1.getText() + inputBox.getText() + event.getActionCommand());
+				try {
+					if ( !((inputBox.getText()).equals("")) )
+						numberSeq.add( Double.parseDouble(inputBox.getText()) );
+				}catch (NumberFormatException e){
+					System.out.println("Format stimmt nicht");
+				}catch(IndexOutOfBoundsException e){
+					System.out.println("Index stimmt nicht");
+				}
+				inputBox.setText("");
+				newOperation = true;
+				dot = false;
 
-					inputBox.setText("");
-//					newOperation = false;
+				break;
 
-					break;
-				} // end if
-
-			} // end for
-//		}
+			} // end if
+		} // end for
 
 
+		/* '=' gedrückt:
+		 * Rechnung wird gelöst
+		 */
 		if( pressed == buttons.getButtons(11) /* = */ ) {
 			
 			for(int i = 0; i < operatorSeq.size() ; i++ ) {
@@ -161,19 +161,17 @@ public class Calculator implements ActionListener{
 				} // end else if
 			} // end for
 
-			double positionzero = numberSeq.get(numberSeq.size()-1);
+			double positionZero = numberSeq.get(numberSeq.size()-1);
 			numberSeq.clear();
 			operatorSeq.clear();
-			numberSeq.add(positionzero);
+			numberSeq.add(positionZero);
 			outputBox2.setText(outputBox1.getText());
 			outputBox1.setText(""+ numberSeq.get(0));
-//			newOperation = true;
+			newOperation = false;
 			
 		} // end if
-		
-		
-		
+
+
 	} // end method actionPerformed
 
-	
 } // end class Calculator
